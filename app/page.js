@@ -27,24 +27,25 @@ export default function Home() {
     console.log("Sending data to webhook:", dataToSend);
 
     try {
-      const res = await fetch(
-        "https://n8n-production-c81b.up.railway.app/webhook/c147766c-0f57-4d89-b073-edb909809b2e",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(dataToSend),
-        }
-      );
+      const res = await fetch("/api/webhook", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dataToSend),
+      });
 
+      const result = await res.json();
       console.log("Webhook response status:", res.status);
-      console.log("Webhook response:", res);
+      console.log("Webhook response:", result);
 
-      if (res.ok) {
+      if (res.ok && result.success) {
         console.log("✅ Data successfully sent to webhook!");
         setSuccess(true);
         form.reset();
       } else {
-        console.error("❌ Webhook returned error status:", res.status);
+        console.error(
+          "❌ Webhook returned error:",
+          result.error || `Status ${res.status}`
+        );
         setError(true);
       }
     } catch (error) {
@@ -90,7 +91,9 @@ export default function Home() {
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Header */}
           <div className="text-center">
-            <h1 className="text-2xl font-light text-black mb-2">REAL ESTATE DEMO</h1>
+            <h1 className="text-2xl font-light text-black mb-2">
+              REAL ESTATE DEMO
+            </h1>
             <div className="w-12 h-px bg-black mx-auto"></div>
           </div>
 
@@ -228,7 +231,6 @@ export default function Home() {
             )}
           </button>
 
-          
           {/* Success/Error Messages */}
           {success && (
             <div className="text-center">
