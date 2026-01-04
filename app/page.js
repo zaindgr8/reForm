@@ -92,7 +92,7 @@ export default function Home() {
           {/* Header */}
           <div className="text-center">
             <h1 className="text-2xl font-light text-black mb-2">
-              DUBAI MORTGAGE- DEMO
+            DUBAI REAL ESTATE- DEMO
             </h1>
             <div className="w-12 h-px bg-black mx-auto"></div>
           </div>
